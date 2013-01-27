@@ -1,0 +1,40 @@
+include "mapbasic.def"
+
+Declare Sub Main
+Declare Sub user_authentication
+
+Sub Main
+Call user_authentication
+End Sub
+
+Sub user_authentication
+  Dim user_name As String 
+  Dim user_password As String
+  Dim pas_ans As Logical
+ 
+Dialog
+  Title "詢問"
+  Control StaticText 
+    Title "Users: "
+    Position 5, 10
+  Control EditText
+    into user_name
+    Position 30, 10
+  Control StaticText
+    Title "Password: "
+    Position 5, 25
+  Control EditText
+    into user_password
+    PASSWORD
+    Position 40,25
+  Control OKButton
+  Control CancelButton
+If CommandInfo(CMD_INFO_DLG_OK) Then
+  Note user_name+", 你好!"
+  pas_ans = ASK ("你的密碼是 "+ user_password, "確定","錯了")
+  If pas_ans = 0 Then
+    Call user_authentication
+  End if
+End If
+
+End Sub

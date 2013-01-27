@@ -1,0 +1,45 @@
+include "mapbasic.def"
+
+Declare Sub Main
+Declare Sub river_Intersect_county
+
+Sub Main
+
+open table "TWN_HSN.tab" As Taiwan
+Map from Taiwan
+Create Menu "Query" As
+     "查詢河流經過之縣市" Calling river_intersect_county
+
+Alter Menu Bar Add "Query"
+
+End Sub
+
+Sub river_Intersect_county
+Dim choice As Integer
+Dim river_name(100) As string
+Dim i, num_river As Integer
+
+Open table "TWN_RIV" As River
+Add Map Layer River
+num_river = TABLEINFO(River,TAB_INFO_NROWS)
+for i = 1 to num_river
+  river_name(i) = River.河川名稱
+  Fetch Next from River
+next 
+
+Dialog 
+  Title "河流查詢"
+  Control STaticText
+   Title "請選擇河流名稱: "
+  Control ListBox
+   Title From Variable river_name
+   Into choice
+  Control OKButton
+  Control CancelButton
+If CommandInfo(CMD_INFO_DLG_OK) Then
+  Select Taiwan.縣市名稱
+  From Taiwan, River
+  Where River.河川名稱 = river_name(choice) and River.obj intersects Taiwan.obj  
+  
+End If
+End Sub   

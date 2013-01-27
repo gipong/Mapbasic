@@ -1,0 +1,14 @@
+!table
+!version 300
+!charset WindowsTradChinese
+
+Definition Table
+  Type NATIVE Charset "WindowsTradChinese"
+  Fields 7
+    風景區名稱 Char (20) ;
+    遊客人數_1992 Integer ;
+    遊客人數_1993 Integer ;
+    遊客人數_1994 Integer Index 2 ;
+    地址 Char (32) ;
+    電話 Char (12) ;
+    型態 Char (10) Index 1 ;

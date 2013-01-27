@@ -1,0 +1,58 @@
+!table
+!version 300
+!charset WindowsTradChinese
+
+Definition Table
+  Type NATIVE Charset "WindowsTradChinese"
+  Fields 51
+    縣市名 Char (6) Index 1 ;
+    編碼_主計處 Char (5) Index 2 ;
+    電話區號 Char (3) Index 9 ;
+    面積_平方公里 Float Index 5 ;
+    人口總數_95 Integer Index 4 ;
+    男性人口_95 Integer ;
+    女性人口_95 Integer ;
+    人口密度_95 Integer Index 3 ;
+    戶數_95 Integer Index 6 ;
+    人口總數_94 Integer Index 7 ;
+    男性人口_94 Integer ;
+    女性人口_94 Integer ;
+    人口密度_94 Integer Index 8 ;
+    戶數_94 Integer ;
+    人口總數_93 Integer ;
+    男性人口_93 Integer ;
+    女性人口_93 Integer ;
+    人口密度_93 Integer ;
+    人口_0 Integer ;
+    人口_1~4 Integer ;
+    人口_5~9 Integer ;
+    人口_10~14 Integer ;
+    人口_15~19 Integer ;
+    人口_20~24 Integer ;
+    人口_25~29 Integer ;
+    人口_30~34 Integer ;
+    人口_35~39 Integer ;
+    人口_40~44 Integer ;
+    人口_45~49 Integer ;
+    人口_50~54 Integer ;
+    人口_55~59 Integer ;
+    人口_60~64 Integer ;
+    人口_65~69 Integer ;
+    人口_70~74 Integer ;
+    人口_75~79 Integer ;
+    人口_80~84 Integer ;
+    人口_85~89 Integer ;
+    人口_90~94 Integer ;
+    人口_95~99 Integer ;
+    人口_100_ Integer ;
+    職業_第一類 Integer ;
+    職業_第二類 Integer ;
+    職業_第三類 Float ;
+    大學以上 Integer ;
+    專科 Integer ;
+    高中職 Integer ;
+    國中 Integer ;
+    國小 Integer ;
+    自修 Integer ;
+    不識字 Integer ;
+    基本所得_億元_ Integer ;

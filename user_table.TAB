@@ -1,0 +1,10 @@
+!table
+!version 300
+!charset WindowsTradChinese
+
+Definition Table
+  Type NATIVE Charset "WindowsTradChinese"
+  Fields 3
+    user Char (15) ;
+    password Char (20) ;
+    role Char (10) ;

@@ -1,0 +1,19 @@
+include "mapbasic.def"
+
+Declare Sub Main
+
+
+Sub Main
+Dim user_name As String  
+Dialog
+  Title "詢問"
+  Control StaticText 
+    Title "請問你是誰？"
+  Control EditText
+    into user_name
+  Control OKButton
+  Control CancelButton
+If CommandInfo(CMD_INFO_DLG_OK) Then
+  Note user_name+", 你好!"
+End If
+End Sub

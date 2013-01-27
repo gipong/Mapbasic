@@ -1,0 +1,52 @@
+include "mapbasic.def"
+
+Declare Sub Main
+
+Sub Main
+Dim year_selection As Integer
+Dim population As Integer
+
+Open Table "TWN_HSN.tab" As Taiwan
+Dialog 
+  Title "琩高"
+  Control GroupBox
+    Title "匡拒だ"
+  Control RadioGroup
+    Title "&95; &94; &93"
+    Value 1
+    Into year_selection 
+ Control StaticText
+   Title "琩高禬筁"
+  Control EditText
+   into population
+  Control StaticText
+   Title "郡カ"
+  Control OKButton
+  Control CancelButton
+  If CommandInfo(CMD_INFO_DLG_OK) Then
+    If year_selection = 1 Then
+      Select 郡カ, 羆计_95 ("1995羆计")
+      From Taiwan
+      Where 羆计_95 > population
+      into temp1
+    ElseIf  year_selection = 2 Then
+      Select 郡カ, 羆计_94 ("1994羆计")
+      From Taiwan
+      Where 羆计_94 > population
+      into temp1
+    Else
+      Select 郡カ, 羆计_93 ("1993羆计")
+      From Taiwan
+      Where 羆计_93 > population
+      into temp1
+    End IF
+    If TABLEINFO(temp1,TAB_INFO_NROWS) = 0 Then
+      Note "⊿Τ郡カ"
+    Else
+      browse * from temp1
+    End If
+  End If
+End Sub
+
+      
+

@@ -1,0 +1,8 @@
+include "mapbasic.def"
+
+Declare Sub Main
+
+'the main body of the program
+Sub Main
+  Note "Hello, World!"
+End Sub

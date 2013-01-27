@@ -1,0 +1,45 @@
+include "mapbasic.def"
+
+Declare Sub Main
+Declare Sub user_authentication
+
+Sub Main
+  Open Table "user_table" AS user_table  
+  Call user_authentication
+End Sub
+
+Sub user_authentication
+ Dim user_name As String 
+Dim user_password As String
+Dim pas_ans As Logical
+Dim num_users As Integer 
+
+Dialog
+  Title "¸ß°Ý"
+  Control StaticText 
+    Title "Users: "
+  Control EditText
+    into user_name
+  Control StaticText
+    Title "Password: "
+  Control EditText
+    into user_password
+    PASSWORD
+  Control OKButton
+  Control CancelButton
+If CommandInfo(CMD_INFO_DLG_OK) Then
+  Select * 
+  From user_table
+  Where user = user_name
+  Into temp1
+  If TableInfo(temp1, TAB_INFO_NROWS) =1 and temp1.password = user_password  Then
+    Note user_name + " is confirmed"
+    If temp1.role = "user" Then
+      Alter Menu Bar Remove ID 1,ID 2,ID 3,ID 4,ID 5,ID 6,ID 7,ID 14, ID 15
+    End If 
+  Else 
+    Note "wrong username or posswword"
+    Call user_authentication
+  End If
+End If
+End Sub

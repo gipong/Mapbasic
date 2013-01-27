@@ -1,0 +1,10 @@
+!table
+!version 300
+!charset WindowsTradChinese
+
+Definition Table
+  Type NATIVE Charset "WindowsTradChinese"
+  Fields 3
+    地址 Char (100) ;
+    行政區域 Char (50) ;
+    道路 Char (50) ;

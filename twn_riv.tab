@@ -1,0 +1,13 @@
+!table
+!version 300
+!charset WindowsTradChinese
+
+Definition Table
+  Type NATIVE Charset "WindowsTradChinese"
+  Fields 6
+    河川名稱 Char (14) Index 1 ;
+    發源地 Char (8) ;
+    出海口 Char (8) ;
+    河流長度 Float ;
+    流域面積 Float ;
+    等級 Char (8) ;

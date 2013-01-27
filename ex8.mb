@@ -1,0 +1,153 @@
+include "mapbasic.def"
+include "icons.def"
+
+Declare Sub Main
+Declare Sub my_own_query
+Declare Sub close_river
+Declare Sub open_river
+Declare Sub close_landmark
+Declare Sub open_landmark
+Declare Sub Click_query
+
+Sub Main
+
+  Open Table "TWN_HSN" As Taiwan
+  Open Table "TWN_RIV" As TaiwanRiver
+  Open Table "TWN_TOUR" As TaiwanTour
+
+  Browse * from Taiwan
+
+  Map from Taiwan, TaiwanRiver, TaiwanTour
+  Position (0,0)  Height 6 Width 8
+
+  Alter Menu  Bar Add "MyOwnFunc" 
+  Alter Menu "MyOwnFunc" Add
+   "查詢"  Calling my_own_query
+   
+  Create Menu "圖層修改" As
+   "關閉河流圖層" Calling close_river,
+   "開啟河流圖層" Calling open_river,  
+   "關閉景點圖層" Calling close_landmark,
+   "開啟景點圖層" Calling open_landmark
+  Alter Menu Bar Add "圖層修改"
+
+  Alter Menu item open_river Disable
+  Alter Menu item open_landmark Disable
+ 
+  Alter ButtonPad "Main"
+    Add Separator
+    Add ToolButton
+      Icon MI_ICONS_MAPS_2
+      Calling Click_query
+      HelpMsg "Click to get attributes\nPointQuery"
+    Title "選地盤"
+    Width 5
+    Show
+
+  Alter ButtonPad "Drawing"
+    Hide
+  Alter ButtonPad "DBMS"
+    Hide
+  set map redraw off
+  set Map Order 2,3,1 
+  set map redraw on
+End Sub
+
+Sub close_river
+  close table TaiwanRiver
+  Alter Menu Item open_river Enable
+  Alter Menu Item close_river Disable
+End Sub
+
+Sub open_river
+  Open Table "TWN_RIV" As TaiwanRiver
+  Add Map Layer TaiwanRiver
+  Alter Menu Item close_river Enable
+  Alter Menu Item open_river Disable
+End Sub
+
+Sub close_landmark
+  close table TaiwanTour
+  Alter Menu Item open_landmark Enable
+  Alter Menu Item close_landmark Disable
+End Sub
+
+Sub open_landmark
+  Open Table "TWN_Tour" As Taiwanlandmark
+  Add Map Layer TaiwanLandmark
+  Alter Menu Item close_landmark Enable
+  Alter Menu Item open_landmark Disable
+
+End Sub
+
+Sub my_own_query
+Dim river_name As String
+Dim num_of_counties, num_of_river, i, choice As Integer
+Dim selectable_counties(50) As String
+Dim select_river As Object
+
+  num_of_river = TableInfo(TaiwanRiver, TAB_INFO_NROWS)
+  Fetch First from TaiwanRiver
+  For i = 1 to num_of_river-1
+    selectable_counties(i)= TaiwanRiver.河川名稱
+    Fetch Next From TaiwanRiver
+  Next
+
+  Dialog
+    Title "河川流經縣市查詢"
+  Control StaticText
+    Title "請輸入河川名稱："
+  Control Listbox Title From Variable selectable_counties
+       Into choice
+  Control OKButton
+  Control CancelButton
+  Fetch First From TaiwanRiver
+  If (choice > 1) Then  
+   For i = 1 to choice-1
+    Fetch Next From TaiwanRiver
+   Next
+  End If
+
+  select_river = TaiwanRiver.obj
+
+  If CommandInfo(CMD_INFO_DLG_OK)=1 Then
+    Select Taiwan.縣市名
+    From Taiwan
+    Where select_river Intersects Taiwan.obj
+    Into temp1
+    num_of_counties= Tableinfo(temp1, TAB_INFO_NROWS)
+    If num_of_counties > 0 Then
+      While not EOT(temp1)
+        Note river_name+"流經之縣市有 " + temp1.縣市名
+        Fetch Next from temp1
+      Wend
+      Note "就這 "+num_of_counties+" 個!"
+    Else
+      Note "沒有經過的縣市"
+    End If
+  End If
+End Sub
+
+Sub Click_query
+  Dim x, y As Float
+  Dim outputmessage As String
+  
+  If WindowInfo(FrontWindow(),WIN_INFO_TYPE) <> WIN_MAPPER Then
+    Note "This tool may only be used on a map window.  Sorry!"
+    Exit Sub
+  End If
+  
+  x=CommandInfo(CMD_INFO_X)
+  y=CommandInfo(CMD_INFO_Y)
+  
+  Select *
+  From Taiwan
+  Where Taiwan.obj Contains CreatePoint(x,y)
+  Into test
+  
+  If SelectionInfo(SEL_INFO_NROWS) > 0 Then
+     outputmessage = "這是"+Taiwan.縣市名 
+     Note outputmessage  
+  End If    
+End Sub
+

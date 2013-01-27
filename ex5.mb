@@ -1,0 +1,25 @@
+include "mapbasic.def"
+include "menu.def"
+
+Declare Sub Main
+Declare Sub welcome
+
+
+Sub Main
+
+Alter Menu Bar Remove ID 1,ID 2,ID 3,ID 4,ID 5,ID 6,ID 7,ID 14, ID 15
+Create Menu "Query Func" As
+  "Welcome" Calling welcome,
+  "∂}∑s¿…" Calling M_File_New
+Alter Menu Bar Add "Query Func"
+
+Alter ButtonPad "Main" Hide
+Alter ButtonPad "Drawing" Hide
+Alter ButtonPad "Standard" Hide
+Alter ButtonPad "Web services" Hide
+
+End Sub
+
+Sub welcome
+ Note "I like GIS"
+End Sub

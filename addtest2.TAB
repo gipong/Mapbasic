@@ -1,0 +1,8 @@
+!table
+!version 300
+!charset WindowsTradChinese
+
+Definition Table
+  Type NATIVE Charset "WindowsTradChinese"
+  Fields 1
+    ¦a§} Char (100) ;

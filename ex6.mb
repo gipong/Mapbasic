@@ -1,0 +1,20 @@
+include "mapbasic.def"
+
+Declare Sub Main
+
+Sub Main
+
+Dim filename As String
+Open File "address.txt" For INPUT As #1
+Open Table "Result.tab" As result
+Do   
+  Input #1, filename  
+  Open Table filename As temp
+  Insert into Result(地址)
+     select 地址 from temp 
+  Update result Set 行政區域=LEFT$(地址,InStr(1,地址,"鄰")) 
+  Update result Set 道路=MID$(地址,InStr(1,地址,"鄰")+1, LEN(地址)-InStr(1,地址,"鄰")) 
+  Close Table temp
+LOOP While NOT EOF(1)
+  browse * from result
+End Sub
